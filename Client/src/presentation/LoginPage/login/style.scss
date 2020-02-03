@@ -1,0 +1,184 @@
+.login-container {
+    max-height: 700px;
+    max-width: 1000px;
+    min-width: 600px;
+    min-height: 450px;
+    height: 80%;
+    width: 65%;
+    position: relative;
+    box-shadow: 0 1px 20px 3px rgba(0, 0, 0, 0.2);
+
+    .left-div {
+
+        p {
+            padding: 0 10px;
+            text-indent: 40px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 22px;
+            font-weight: 400;
+        }
+    }
+
+    .right-div {
+
+        .right-form-container{
+            width: 65%;
+        }
+
+
+        .login-input-box {
+            height: 50px;
+            border-bottom: 1px solid #ccc;
+            box-sizing: border-box;
+            padding: 15px;
+            margin: 10px 0;
+
+            &:focus {
+                border-color: #3281FE;
+            }
+        }
+
+        #uname {
+           
+        }
+
+        #pword {
+
+
+        }
+
+        #login-btn {
+            background-color: #3281FE;
+            height: 45px;
+            width: 100%;
+            border-radius: 7px;
+            cursor: pointer;
+
+            &:hover {
+                box-shadow: 0 2px 6px 1px rgba(0,0,0,0.2);
+            }
+        }
+
+        .register-btn {
+            color: #3281FE;
+            font-weight: 700;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            &:active {
+                text-decoration: none;
+            }
+        }
+
+    }
+}
+
+.login-container-background {
+    position: relative;
+}
+
+.login-container-background:after {
+    content: '';
+    background-image: url(../../../../assets/images/login-background.jpg);
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+    background-position: center;
+    background-size: 100%;
+    opacity: 0.14;
+    position: absolute;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.login-left-hr{
+    display: block;
+    width: 94px;
+    height: 4px;
+    background-color: white;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 40px;
+    border-radius: 11px;
+}
+
+.login-right-hr{
+   @extend .login-left-hr;
+    background-color: #3281FE;
+    width: 50px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.round-image-login {
+    position: absolute;
+    background-position: center;
+    background-size: 100%;
+    width: 150px;
+    height: 150px;  
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top,bottom 0.8s ease-in-out;
+    background-image: url(../../../../assets/images/circle-white.png);
+    
+    &.login {
+        bottom: 40px;
+        top: auto;
+    }
+
+
+    &.register{
+        bottom: auto;
+        top: 40px;
+    }
+}
+
+.square-login-image {
+    position: absolute;
+    background-position: center;
+    background-size: 100%;
+    width: 170px;
+    height: 170px;
+    top: 50px;
+    right: -80px;
+    background-image: url(../../../../assets/images/square-login.png);
+    transition: all 0.8s ease-out;
+    
+    &.login {
+        transform: rotate(50deg);
+    }
+
+    &.register {
+        transform: rotate(230deg);
+        top: 300px;
+    }
+
+}
+
+
+.security-risk-image-male {
+    position: absolute;
+    background-position: center;
+    background-size: 100%;
+    width: 170px;
+    height: 170px;
+    bottom: -25px;
+    left: -31px;
+    background-image: url(../../../../assets/images/security-risk-image-male.png);
+}
+
+.security-risk-image-female {
+    position: absolute;
+    background-position: center;
+    background-size: 100%;
+    width: 170px;
+    height: 170px;
+    bottom: -16px;
+    right: -57px;
+    background-image: url(../../../../assets/images/security-risk-image-female.png);
+}

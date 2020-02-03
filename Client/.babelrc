@@ -1,0 +1,22 @@
+{
+    "presets": [
+        "@babel/preset-react",
+        [
+            "@babel/preset-env",
+            {
+                /* refer this https://browserl.ist/?q=Explorer+11%2C%3E.5%25 for the list of supported browsers*/
+                "targets": {
+                    "browsers": ["Explorer 11", "> .5%"]
+                },
+                "loose": true,
+                "modules": false,
+                "debug": false,
+            }
+        ]
+    ],
+
+    "plugins": [
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-syntax-dynamic-import"
+    ]
+}
