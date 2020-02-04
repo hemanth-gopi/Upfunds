@@ -1,6 +1,8 @@
 const express = require("express");
 const router = new express.Router();
 
+const auth = require("../../middleware/auth");
+
 const bcrypt = require("bcryptjs");
 
 const User = require("./../../models/User");
@@ -35,7 +37,7 @@ const assertUserExists = async (type, value) => {
 
 // APIs
 // Api to register 
-router.post("/register", async (req, res) => {
+router.post("/register", auth.assertNotAuthenticated, async (req, res) => {
   const user = new User(req.body);
   console.log("Debug: user", req.body)
 
@@ -58,7 +60,7 @@ router.post("/register", async (req, res) => {
 
 
 // Api to login
-router.post("/login", async (req, res) => {
+router.post("/login", auth.assertNotAuthenticated , async (req, res) => {
   const user = new User(req.body);
 
   try {
@@ -80,11 +82,21 @@ router.post("/login", async (req, res) => {
     );
 
     if (isMatch) {
-      res.status(302).send("Login successful!");
+      const token = await userInDb.generateAuthToken();
+
+      
+      res.cookie('_upt', token, {maxAge : '3d', httpOnly : true})
+      
+      console.log(token)
+
+
+      res.status(302).send('/dashboard');
+
     } else {
       throw new Error("Authentication failed!");
     }
   } catch (e) {
+    console.log(e)
     res.status(400).send("Unable to login the user : " + e.message);
   }
 });

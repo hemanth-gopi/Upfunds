@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const jsonwebtoken = require('jsonwebtoken')
 
 const bcrypt = require('bcryptjs')
 
@@ -42,7 +43,32 @@ const userSchema = new mongoose.Schema( {
             }
         }
     },
+    tokens : [
+        {
+            token:{
+                type: String,
+                required: true
+            }
+        }
+    ]
 })
+
+userSchema.methods.generateAuthToken =  async function () {
+    
+    const user = this;
+    let token;
+    try {
+        token = jsonwebtoken.sign({_id : user._id.toString()}, "upfunds-secret", {expiresIn : "3d"})
+        user.tokens = user.tokens.concat( { token } );
+        await user.save;
+    } catch(error){
+        throw new Error("Error generating token", {
+            error
+        })
+    }
+
+    return token;
+}
 
 userSchema.pre('save', async function (next) {
     const user = this
