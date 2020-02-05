@@ -60,7 +60,7 @@ userSchema.methods.generateAuthToken =  async function () {
     try {
         token = jsonwebtoken.sign({_id : user._id.toString()}, "upfunds-secret", {expiresIn : "3d"})
         user.tokens = user.tokens.concat( { token } );
-        await user.save;
+        await user.save();
     } catch(error){
         throw new Error("Error generating token", {
             error

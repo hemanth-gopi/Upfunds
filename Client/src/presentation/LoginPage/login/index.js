@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './style.scss';
 import {randomInt} from '../../../utils/utils'
 import classnames from 'classnames'
-import { RightDiv } from "./RightDiv";
+import  RightDiv from "./RightDiv";
 import { LeftDiv } from "./LeftDiv";
 import { Route } from "react-router-dom";
 import RegisterSuccess from "../RegisterSuccess";

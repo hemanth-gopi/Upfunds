@@ -52,7 +52,7 @@ router.post("/register", auth.assertNotAuthenticated, async (req, res) => {
 
     await user.save();
 
-    res.status(302).redirect("/register/success");
+    res.status(200).send();
   } catch (e) {
     res.status(400).send("Unable to register the user : " + e.message);
   }
@@ -83,14 +83,12 @@ router.post("/login", auth.assertNotAuthenticated , async (req, res) => {
 
     if (isMatch) {
       const token = await userInDb.generateAuthToken();
-
       
-      res.cookie('_upt', token, {maxAge : '3d', httpOnly : true})
-      
-      console.log(token)
+      console.log("Debug: token", token)
 
-
-      res.status(302).send('/dashboard');
+      res.cookie('_upt', token, {maxAge : 90000, httpOnly : true});
+           
+      res.status(200).send('"Hai Response');
 
     } else {
       throw new Error("Authentication failed!");

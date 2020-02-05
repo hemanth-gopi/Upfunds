@@ -1,13 +1,13 @@
 import { Button, Flex, FormControl, Heading, Input, InputRightElement, PseudoBox, InputGroup, IconButton, Link, Text } from "@chakra-ui/core";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, withRouter} from 'react-router-dom';
 import classnames from 'classnames';
 import { getSecurityImage } from "./index";
 
-import axios from "axios";
+import {loginUser, registerUser } from './api';
 
-export function RightDiv(props) {
+function RightDiv(props) {
     const [show, setShow] = useState(false);
 
     const [isSubmitting,setIsSubmitting] = useState(false);
@@ -19,6 +19,8 @@ export function RightDiv(props) {
     const [name , setName] = useState('');
 
     const [password, setPassword] = useState('')
+
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     
     const handleClick = () => setShow(!show);
     
@@ -43,9 +45,48 @@ export function RightDiv(props) {
         }
     };
 
-    function onSubmit(values) {
-        setIsSubmitting(true);       
-      }
+    const handleLogin = () => {
+        setIsSubmitting(true);  
+
+        loginUser({username, password}).then( () => {
+            setIsSubmitting(false);
+            props.history.push('/dashboard')
+        }).catch( error => {
+            console.log(error)
+        })
+
+    }
+
+    const handleRegistration = () => {
+
+        setIsSubmitting(true);  
+        
+        registerUser({name, username, email, password}).then( () => {
+            setIsSubmitting(false);
+            props.history.push(props.match.path + "/success");
+        }).catch( error => {
+            console.log(error)
+        }
+
+        )
+
+    }
+
+    function onSubmit() {
+        isRegister 
+            ? handleRegistration()
+            : handleLogin();
+    }
+
+    useEffect( () => {
+
+        if( username.trim() == '' || password.trim() == '' || (isRegister && (name.trim() =='' || email.trim() =='' ) )){
+            setIsButtonDisabled(true);
+        } else {
+            setIsButtonDisabled(false)
+        }
+
+    },[name, username, email,password])
     
     return (<Flex className="right-div" w="50%" h="100%" bg="white" justify="center" align="center" flexDirection="column" position="relative">
 
@@ -62,9 +103,9 @@ export function RightDiv(props) {
         </PseudoBox>
 
 
-        <form action={ textContent[type]["action"] } method="post" className="right-form-container" >
+        <form  className="right-form-container" >
             
-            <FormControl onSubmit={onSubmit} isRequired position="relative" padding="30px" paddingTop="10px" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+            <FormControl  isRequired position="relative" padding="30px" paddingTop="10px" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 
                 {isRegister && <Input name="name" id="fname" value={name} onChange={ event => setName(event.target.value)} className="login-input-box" placeholder="First name" />}
 
@@ -86,7 +127,13 @@ export function RightDiv(props) {
                 
                 </InputGroup>
 
-                <Button id="login-btn" type="submit" variantColor="#3281FE" marginTop="20px" borderRadius="40px" padding="5px 60px">{textContent[type]["header"]}</Button>
+                <Button 
+                    isLoading={isSubmitting} loadingText={'Registering'} 
+                    onClick={onSubmit} id="login-btn" type="submit" isDisabled={isRegister && isButtonDisabled}
+                    variantColor="#3281FE" marginTop="20px" borderRadius="40px" 
+                    padding="5px 60px">
+                        {textContent[type]["header"]}
+                 </Button>
 
             </FormControl>
         </form>
@@ -103,3 +150,6 @@ export function RightDiv(props) {
 
     </Flex>);
 }
+
+
+export default withRouter(RightDiv);
