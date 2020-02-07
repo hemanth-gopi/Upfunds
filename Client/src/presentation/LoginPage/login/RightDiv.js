@@ -128,7 +128,7 @@ function RightDiv(props) {
                 </InputGroup>
 
                 <Button 
-                    isLoading={isSubmitting} loadingText={'Registering'} 
+                    isLoading={isSubmitting} loadingText={isRegister ? 'Registering' : 'Signing in'} 
                     onClick={onSubmit} id="login-btn" type="submit" isDisabled={isRegister && isButtonDisabled}
                     variantColor="#3281FE" marginTop="20px" borderRadius="40px" 
                     padding="5px 60px">

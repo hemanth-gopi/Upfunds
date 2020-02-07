@@ -9,17 +9,17 @@ const auth = require('../../middleware/auth')
 //                             ? path.join(__dirname, '../../../Client/dist')
 //                             : path.join(__dirname, '../../public');
 
-router.get('/login', auth.assertNotAuthenticated,(req, res) => {
+router.get('/login', auth.assertAuthentication,(req, res) => {
     console.log("Login route.......")
     res.sendFile(constant.publicDirectoryPath+ '/index.html')
 })
 
-router.get('/register', auth.assertNotAuthenticated,(req, res) => {
+router.get('/register', auth.assertAuthentication,(req, res) => {
     console.log("Register route.......")
     res.sendFile(constant.publicDirectoryPath+ '/index.html')
 })
 
-router.get('/dashboard', auth.assertNotAuthenticated,(req, res) => {
+router.get('/dashboard', auth.assertAuthentication,(req, res) => {
     console.log("DAshboard route.......")
     res.sendFile(constant.publicDirectoryPath+ '/index.html')
 })

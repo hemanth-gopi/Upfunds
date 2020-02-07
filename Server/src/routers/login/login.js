@@ -37,7 +37,7 @@ const assertUserExists = async (type, value) => {
 
 // APIs
 // Api to register 
-router.post("/register", auth.assertNotAuthenticated, async (req, res) => {
+router.post("/register", auth.assertAuthentication, async (req, res) => {
   const user = new User(req.body);
   console.log("Debug: user", req.body)
 
@@ -60,7 +60,7 @@ router.post("/register", auth.assertNotAuthenticated, async (req, res) => {
 
 
 // Api to login
-router.post("/login", auth.assertNotAuthenticated , async (req, res) => {
+router.post("/login", auth.assertAuthentication , async (req, res) => {
   const user = new User(req.body);
 
   try {

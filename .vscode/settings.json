@@ -1,3 +1,4 @@
 {
-    "turboConsoleLog.logMessagePrefix": "Debug"
+    "turboConsoleLog.logMessagePrefix": "Debug",
+    "debug.node.autoAttach": "off"
 }

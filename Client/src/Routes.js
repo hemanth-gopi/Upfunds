@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {createBrowserHistory} from 'history';
 import Login from './presentation/LoginPage/login'
+import Dashboard from './presentation/Dashboard'
 import RegisterSuccess from './presentation/LoginPage/RegisterSuccess'
 import { ThemeProvider } from "@chakra-ui/core";
 import Theme from './utils/theme';
-// import "./App.css";
-// import "./scss/common.scss";
+
 
 const history = createBrowserHistory();
 
@@ -27,7 +27,7 @@ class Routes extends Component {
 
             <Route path="/register" component={Login} />
 
-            {/* <Route exact path="/register/success" component={RegisterSuccess} /> */}
+            <Route path="/dashboard" component={Dashboard} />
 
             <Route exact path="/" component={Login} />
 

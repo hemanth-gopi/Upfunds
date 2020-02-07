@@ -2,6 +2,17 @@ const jsonwebtoken = require('jsonwebtoken')
 
 const User = require('../models/User');
 
+const unAuthRoutes = [
+    {
+        path : '/login',
+        method : 'get' 
+    },
+    {
+        path : '/register',
+        method : 'get'
+    }
+]
+
 const auth = async (req, res, next) => {
 
     try{
@@ -26,17 +37,28 @@ const auth = async (req, res, next) => {
 
 }
 
-const assertNotAuthenticated = async (req, res, next) => {
+const isUnauthRoute = (path, method) => {
+
+    return unAuthRoutes.filter( route => route.path === path && route.method === method ).length == 1;
+
+}
+
+const assertAuthentication = async (req, res, next) => {
 
     try{
-        // const token = req.header('Authorization').replace('Bearer ', '');
+        
         const token = req.cookies['_upt']
-        console.log("Debug: assertNotAuthenticated -> token", req.cookies)
+        console.log("Debug: assertNotAuthenticated " , req.originalUrl, "-> cookies", JSON.stringify(req.cookies))
         console.log("Debug: assertNotAuthenticated -> token", token)
 
         if(token === undefined || token === null){
-            next();
-            return ;
+            if(isUnauthRoute(req.path, req.method)){
+                next();
+                return ;
+            } else {
+                throw new Error("Not Authenticated");
+            }
+
         }
 
         const decoded = jsonwebtoken.verify(token, 'upfunds-secret');
@@ -44,25 +66,23 @@ const assertNotAuthenticated = async (req, res, next) => {
 
         const user = await User.findOne({_id: decoded._id, 'tokens.token' : token});
 
-        console.log("Debug: assertNotAuthenticated -> user", user)
-        
+        // console.log("Debug: assertNotAuthenticated -> user", user)
+        if(isUnauthRoute && user) {
+            res.status(302).redirect('/dashboard')
+        }
 
-        if(!user) {
-            next();
-            return;
+        if(!isUnauthRoute && !user) {
+            res.status(302).redirect('/login')
         }
 
     } catch(error){
-        next();
-        return;
+       console.log('Error verifying authentication !',error.name);
     }
 
-    res.status(302).redirect('/dashboard')
-
+    next();
 }
 
 module.exports = {
     auth :auth,
-    assertNotAuthenticated
-
+    assertAuthentication
 };
