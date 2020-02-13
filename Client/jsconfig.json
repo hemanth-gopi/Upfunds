@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "target":"es6",
+      "module": "commonjs",
+      "jsx":"react",
+      "experimentalDecorators": true,
+      "baseUrl": "./",
+      "paths": {
+      }
+    },
+    "exclude": ["node_modules"]
+  }
