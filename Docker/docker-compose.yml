@@ -1,0 +1,18 @@
+version: '3'
+services :
+# ...other configs...
+  database:
+    image: 'mongo'
+    container_name : 'mongo-container'
+    restart: always
+    environment :
+      - MONGO_INITDB_DATABASE=Upfunds
+      - MONGO_INITDB_ROOT_USERNAME=hemanth
+      - MONGO_INITDB_ROOT_PASSWORD=karmaisbitch
+    volumes :
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+      - ./mongodb-config:/data/configdb
+    ports:
+      - '27017-27019:27017-27019'
+
